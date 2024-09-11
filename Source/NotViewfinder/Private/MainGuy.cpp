@@ -48,6 +48,10 @@ void AMainGuy::MoveRight(const FInputActionValue& value)
 
 void AMainGuy::Look(const FInputActionValue& value)
 {
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	if (PlayerController->bShowMouseCursor)
+		return;
+
 	FVector2D LookInput = value.Get<FVector2D>();
 	AddControllerYawInput(LookInput.X * LookSpeedLR);
 
@@ -60,7 +64,18 @@ void AMainGuy::Look(const FInputActionValue& value)
 
 void AMainGuy::TakePicture()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Picture Taken"));
+
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	const bool bShowMouseCursor = !PlayerController->bShowMouseCursor;
+
+	if (bShowMouseCursor)
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Picture Taken"));
+	else
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Back To Player"));
+
+	PlayerController->bShowMouseCursor = bShowMouseCursor;
+	PlayerController->bEnableClickEvents = bShowMouseCursor;
+	PlayerController->bEnableMouseOverEvents = bShowMouseCursor;
 }
 
 // Called every frame
