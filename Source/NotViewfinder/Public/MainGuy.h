@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Camera/CameraComponent.h"
+
 #include "MainGuy.generated.h"
+
 
 UCLASS()
 class NOTVIEWFINDER_API AMainGuy : public ACharacter
@@ -20,6 +23,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	UPROPERTY()
+	UCameraComponent* Camera;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
