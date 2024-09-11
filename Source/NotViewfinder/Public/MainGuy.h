@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
+#include <EnhancedInputLibrary.h>
 
 #include "MainGuy.generated.h"
 
@@ -22,9 +23,44 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void MoveForward(const FInputActionValue& value);
+	void MoveRight(const FInputActionValue& value);
+
+	void Look(const FInputActionValue& value);
+
+	void TakePicture();
+
 public:	
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	UCameraComponent* Camera;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	float MoveSpeed = 100.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	float LookSpeedLR = 0.5f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	float LookSpeedUD = 0.75f;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputMappingContext* InputMappingContext = nullptr;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputAction* MoveForwardAction = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputAction* MoveRightAction = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputAction* LookAction = nullptr;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputAction* TakePictureAction = nullptr;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
